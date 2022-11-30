@@ -56,7 +56,7 @@ services:
     ports:
       - "63791:6379"
   node:
-    image: node:8.6-alpine
+    image: node:12.14-alpine
     volumes:
       - ./:/var/www
     working_dir: /var/www

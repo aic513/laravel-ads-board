@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\Cabinet\HomeController as Cabinet;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/cabinet', [App\Http\Controllers\Cabinet\HomeController::class, 'index'])->name('cabinet');
+Route::get('/cabinet', [Cabinet::class, 'index'])->name('cabinet');
+
+Route::get('/verify/{token}', [VerificationController::class, 'verify'])->name('register.verify');

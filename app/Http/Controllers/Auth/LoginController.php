@@ -24,6 +24,9 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function login(LoginRequest $request)
     {
         if ($this->hasTooManyLoginAttempts($request)) {

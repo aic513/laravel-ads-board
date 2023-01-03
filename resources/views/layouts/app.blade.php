@@ -73,6 +73,7 @@
                             </div>
                         </li>
                     @endguest
+                    <a class="dropdown-item" href="{{ route('admin.home') }}">Admin</a>
                 </ul>
             </div>
         </div>

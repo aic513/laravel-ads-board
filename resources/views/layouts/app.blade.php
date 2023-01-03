@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ __('Adverts') }}</title>
 
     <!-- Scripts -->
     <script src="{{ mix('js/app.js', 'build') }}" defer></script>
@@ -19,12 +19,12 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
-<div id="app">
-    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+<body id="app">
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-white shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
-                {{ config('app.name', 'Laravel') }}
+                {{ __('Adverts') }}
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -78,10 +78,20 @@
             </div>
         </div>
     </nav>
+</header>
 
-    <main class="py-4">
+<main class="app-content py-3">
+    <div class="container">
         @yield('content')
-    </main>
-</div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="border-top pt-3">
+            <p>&copy; {{ date('Y') }} - {{ __('Adverts') }}</p>
+        </div>
+    </div>
+</footer>
 </body>
 </html>

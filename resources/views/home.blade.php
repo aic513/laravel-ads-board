@@ -1,14 +1,16 @@
 @extends('layouts.app')
 
-@section('content')
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Hello') }}</div>
+@section('breadcrumbs', '')
 
-                    <div class="card-body">
-                        {{ __('Your site') }}
-                    </div>
+@section('content')
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Hello') }}</div>
+
+                <div class="card-body">
+                    {{ __('Your site') }}
+                </div>
                 </div>
             </div>
         </div>

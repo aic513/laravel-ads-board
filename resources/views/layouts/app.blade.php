@@ -21,7 +21,7 @@
 </head>
 <body id="app">
 <header>
-    <nav class="navbar navbar-expand-md navbar-dark bg-white shadow-sm">
+    <nav class="navbar navbar-expand-md shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
                 {{ __('Adverts') }}
@@ -61,6 +61,8 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('cabinet') }}">Cabinet</a>
+                                <a class="dropdown-item" href="{{ route('admin.home') }}">Admin</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                    document.getElementById('logout-form').submit();">
@@ -73,7 +75,6 @@
                             </div>
                         </li>
                     @endguest
-                    <a class="dropdown-item" href="{{ route('admin.home') }}">Admin</a>
                 </ul>
             </div>
         </div>
@@ -82,6 +83,7 @@
 
 <main class="app-content py-3">
     <div class="container">
+        @section('breadcrumbs', Breadcrumbs::render())
         @yield('breadcrumbs')
         @include('layouts.partials.flash')
         @yield('content')

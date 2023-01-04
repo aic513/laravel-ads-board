@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\HomeController as Admin;
+use App\Http\Controllers\Admin\UsersController as Users;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Cabinet\HomeController as Cabinet;
 use App\Http\Controllers\HomeController;
@@ -27,11 +28,12 @@ Route::group(
     [
         'prefix' => 'admin',
         'as' => 'admin.',
-        'namespace' => 'Admin',
+//        'namespace' => 'Admin',
         'middleware' => ['auth'],
     ],
     function () {
         Route::get('/', [Admin::class, 'index'])->name('home');
+        Route::resource('users', Users::class);
     }
 );
 

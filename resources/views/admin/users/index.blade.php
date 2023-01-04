@@ -3,15 +3,16 @@
 @section('content')
     @include('admin.users._nav')
 
-    <p><a href="{{ route('admin.users.create') }}" class="btn btn-success">{{ __('Add User') }}</a></p>
+    <p><a href="{{ route('admin.users.create') }}" class="btn btn-success">Add User</a></p>
 
     <table class="table table-bordered table-striped">
         <thead>
         <tr>
-            <th>{{ __('ID') }}</th>
-            <th>{{ __('Name') }}</th>
-            <th>{{ __('Email') }}</th>
-            <th>{{ __('Status') }}</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Role</th>
         </tr>
         </thead>
         <tbody>
@@ -23,10 +24,17 @@
                 <td>{{ $user->email }}</td>
                 <td>
                     @if ($user->isWait())
-                        <span class="badge badge-secondary">{{ __('Waiting') }}</span>
+                        <span class="badge badge-secondary">Waiting</span>
                     @endif
                     @if ($user->isActive())
-                        <span class="badge badge-primary">{{ __('Active') }}</span>
+                        <span class="badge badge-primary">Active</span>
+                    @endif
+                </td>
+                <td>
+                    @if ($user->isAdmin())
+                        <span class="badge badge-danger">Admin</span>
+                    @else
+                        <span class="badge badge-secondary">User</span>
                     @endif
                 </td>
             </tr>

@@ -35,9 +35,19 @@ Route::group(
     ],
     function () {
         Route::get('/', [Cabinet::class, 'index'])->name('home');
-        Route::get('/profile', [Profile::class, 'index'])->name('profile.home');
-        Route::get('/profile/edit', [Profile::class, 'edit'])->name('profile.edit');
-        Route::put('/profile/update', [Profile::class, 'update'])->name('profile.update');
+
+        Route::group(
+            [
+                'prefix' => 'profile',
+                'as' => 'profile.'
+            ], function () {
+            Route::get('/', [Profile::class, 'index'])->name('home');
+            Route::get('/edit', [Profile::class, 'edit'])->name('edit');
+            Route::put('/update', [Profile::class, 'update'])->name('update');
+            Route::post('/phone', [Profile::class, 'request']);
+            Route::get('/phone', [Profile::class, 'form'])->name('phone');
+            Route::put('/phone', [Profile::class, 'verify'])->name('phone.verify');
+        });
     }
 );
 

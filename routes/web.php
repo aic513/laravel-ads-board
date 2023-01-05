@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\HomeController as Admin;
+use App\Http\Controllers\Admin\RegionController as Region;
 use App\Http\Controllers\Admin\UsersController as Users;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Cabinet\HomeController as Cabinet;
@@ -35,6 +36,7 @@ Route::group(
         Route::get('/', [Admin::class, 'index'])->name('home');
         Route::resource('users', Users::class);
         Route::post('/users/{user}/verify', [Users::class, 'verify'])->name('users.verify');
+        Route::resource('regions', Region::class);
     }
 );
 

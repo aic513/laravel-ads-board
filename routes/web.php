@@ -5,7 +5,8 @@ use App\Http\Controllers\Admin\Adverts\CategoryController as AdvertCategory;
 use App\Http\Controllers\Admin\HomeController as Admin;
 use App\Http\Controllers\Admin\RegionController as Region;
 use App\Http\Controllers\Admin\UsersController as Users;
-use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\Auth\LoginController as Login;
+use App\Http\Controllers\Auth\VerificationController as Verification;
 use App\Http\Controllers\Cabinet\HomeController as Cabinet;
 use App\Http\Controllers\Cabinet\ProfileController as Profile;
 use App\Http\Controllers\HomeController;
@@ -22,15 +23,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/login/phone', [Login::class, 'phone'])->name('login.phone');
+Route::post('/login/phone', [Login::class, 'verify']);
+
+Route::get('/verify/{token}', [Verification::class, 'verify'])->name('register.verify');
+
 
 Route::group(
     [
         'prefix' => 'cabinet',
         'as' => 'cabinet.',
-//        'namespace' => 'Cabinet',
         'middleware' => ['auth'],
     ],
     function () {
@@ -47,6 +53,7 @@ Route::group(
             Route::post('/phone', [Profile::class, 'request']);
             Route::get('/phone', [Profile::class, 'form'])->name('phone');
             Route::put('/phone', [Profile::class, 'verify'])->name('phone.verify');
+            Route::post('/phone/auth', [Profile::class, 'auth'])->name('phone.auth');
         });
     }
 );
@@ -83,5 +90,3 @@ Route::group(
         });
     }
 );
-
-Route::get('/verify/{token}', [VerificationController::class, 'verify'])->name('register.verify');

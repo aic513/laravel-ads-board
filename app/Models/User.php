@@ -17,6 +17,7 @@ use Throwable;
  * @property bool $phone_verified
  * @property string $password
  * @property string $verify_token
+ * @property boolean $phone_auth
  * @property string $phone_verify_token
  * @property Carbon $phone_verify_token_expire
  * @property string $role
@@ -52,6 +53,7 @@ class User extends Authenticatable
     protected $casts = [
         'phone_verified' => 'boolean',
         'phone_verify_token_expire' => 'datetime',
+        'phone_auth' => 'boolean',
     ];
 
     public static function register(string $name, string $email, string $password): self
@@ -110,11 +112,15 @@ class User extends Authenticatable
         $this->update(['role' => $role]);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function unverifyPhone(): void
     {
         $this->phone_verified = false;
         $this->phone_verify_token = null;
         $this->phone_verify_token_expire = null;
+        $this->phone_auth = false;
         $this->saveOrFail();
     }
 
@@ -151,6 +157,27 @@ class User extends Authenticatable
         $this->saveOrFail();
     }
 
+    /**
+     * @throws Throwable
+     */
+    public function enablePhoneAuth(): void
+    {
+        if (!empty($this->phone) && !$this->isPhoneVerified()) {
+            throw new \DomainException('Phone number is empty.');
+        }
+        $this->phone_auth = true;
+        $this->saveOrFail();
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function disablePhoneAuth(): void
+    {
+        $this->phone_auth = false;
+        $this->saveOrFail();
+    }
+
     public function isAdmin(): bool
     {
         return $this->role === self::ROLE_ADMIN;
@@ -160,4 +187,10 @@ class User extends Authenticatable
     {
         return $this->phone_verified;
     }
+
+    public function isPhoneAuthEnabled(): bool
+    {
+        return $this->phone_auth;
+    }
+
 }

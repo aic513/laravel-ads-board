@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Cabinet;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Throwable;
 
 class ProfileController extends Controller
 {
@@ -39,6 +40,20 @@ class ProfileController extends Controller
             $user->unverifyPhone();
         }
 
+        return redirect()->route('cabinet.profile.home');
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function auth()
+    {
+        $user = Auth::user();
+        if ($user->isPhoneAuthEnabled()) {
+            $user->disablePhoneAuth();
+        } else {
+            $user->enablePhoneAuth();
+        }
         return redirect()->route('cabinet.profile.home');
     }
 }

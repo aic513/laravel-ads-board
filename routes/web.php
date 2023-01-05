@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\RegionController as Region;
 use App\Http\Controllers\Admin\UsersController as Users;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Cabinet\HomeController as Cabinet;
+use App\Http\Controllers\Cabinet\ProfileController as Profile;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,11 +30,14 @@ Route::group(
     [
         'prefix' => 'cabinet',
         'as' => 'cabinet.',
-        'namespace' => 'Cabinet',
+//        'namespace' => 'Cabinet',
         'middleware' => ['auth'],
     ],
     function () {
         Route::get('/', [Cabinet::class, 'index'])->name('home');
+        Route::get('/profile', [Profile::class, 'index'])->name('profile.home');
+        Route::get('/profile/edit', [Profile::class, 'edit'])->name('profile.edit');
+        Route::put('/profile/update', [Profile::class, 'update'])->name('profile.update');
     }
 );
 

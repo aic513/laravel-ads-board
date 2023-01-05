@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Adverts\Attribute;
 use App\Models\Adverts\Category;
 use App\Models\Region;
 use App\Models\User;
@@ -110,3 +111,22 @@ Breadcrumbs::register('admin.adverts.categories.edit', function (Crumbs $crumbs,
     $crumbs->parent('admin.adverts.categories.show', $category);
     $crumbs->push('Edit', route('admin.adverts.categories.edit', $category));
 });
+
+// Advert Category Attributes
+
+Breadcrumbs::register('admin.adverts.categories.attributes.create', function (Crumbs $crumbs, Category $category) {
+    $crumbs->parent('admin.adverts.categories.show', $category);
+    $crumbs->push('Create', route('admin.adverts.categories.attributes.create', $category));
+});
+
+Breadcrumbs::register('admin.adverts.categories.attributes.show',
+    function (Crumbs $crumbs, Category $category, Attribute $attribute) {
+        $crumbs->parent('admin.adverts.categories.show', $category);
+        $crumbs->push($attribute->name, route('admin.adverts.categories.attributes.show', [$category, $attribute]));
+    });
+
+Breadcrumbs::register('admin.adverts.categories.attributes.edit',
+    function (Crumbs $crumbs, Category $category, Attribute $attribute) {
+        $crumbs->parent('admin.adverts.categories.attributes.show', $category, $attribute);
+        $crumbs->push('Edit', route('admin.adverts.categories.attributes.edit', [$category, $attribute]));
+    });

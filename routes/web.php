@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Adverts\AttributeController as Attribute;
 use App\Http\Controllers\Admin\Adverts\CategoryController as AdvertCategory;
 use App\Http\Controllers\Admin\HomeController as Admin;
 use App\Http\Controllers\Admin\RegionController as Region;
@@ -43,10 +44,18 @@ Route::group(
                 'as' => 'adverts.',
             ], function () {
             Route::resource('categories', AdvertCategory::class);
-            Route::post('/categories/{category}/first', [AdvertCategory::class, 'first'])->name('categories.first');
-            Route::post('/categories/{category}/up', [AdvertCategory::class, 'up'])->name('categories.up');
-            Route::post('/categories/{category}/down', [AdvertCategory::class, 'down'])->name('categories.down');
-            Route::post('/categories/{category}/last', [AdvertCategory::class, 'last'])->name('categories.last');
+
+            Route::group(
+                [
+                    'prefix' => 'categories/{category}',
+                    'as' => 'categories.'
+                ], function () {
+                Route::post('/first', [AdvertCategory::class, 'first'])->name('first');
+                Route::post('/up', [AdvertCategory::class, 'up'])->name('up');
+                Route::post('/down', [AdvertCategory::class, 'down'])->name('down');
+                Route::post('/last', [AdvertCategory::class, 'last'])->name('last');
+                Route::resource('attributes', Attribute::class)->except('index');
+            });
         });
     }
 );

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\Adverts\CategoryController;
+use App\Http\Controllers\Admin\Adverts\CategoryController as AdvertCategory;
 use App\Http\Controllers\Admin\HomeController as Admin;
 use App\Http\Controllers\Admin\RegionController as Region;
 use App\Http\Controllers\Admin\UsersController as Users;
@@ -42,7 +42,11 @@ Route::group(
                 'prefix' => 'adverts',
                 'as' => 'adverts.',
             ], function () {
-            Route::resource('categories', CategoryController::class);
+            Route::resource('categories', AdvertCategory::class);
+            Route::post('/categories/{category}/first', [AdvertCategory::class, 'first'])->name('categories.first');
+            Route::post('/categories/{category}/up', [AdvertCategory::class, 'up'])->name('categories.up');
+            Route::post('/categories/{category}/down', [AdvertCategory::class, 'down'])->name('categories.down');
+            Route::post('/categories/{category}/last', [AdvertCategory::class, 'last'])->name('categories.last');
         });
     }
 );

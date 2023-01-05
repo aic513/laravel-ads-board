@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Adverts\CategoryController;
 use App\Http\Controllers\Admin\HomeController as Admin;
 use App\Http\Controllers\Admin\RegionController as Region;
 use App\Http\Controllers\Admin\UsersController as Users;
@@ -29,7 +30,6 @@ Route::group(
     [
         'prefix' => 'admin',
         'as' => 'admin.',
-//        'namespace' => 'Admin',
         'middleware' => ['auth', 'can:admin-panel'],
     ],
     function () {
@@ -37,6 +37,13 @@ Route::group(
         Route::resource('users', Users::class);
         Route::post('/users/{user}/verify', [Users::class, 'verify'])->name('users.verify');
         Route::resource('regions', Region::class);
+        Route::group(
+            [
+                'prefix' => 'adverts',
+                'as' => 'adverts.',
+            ], function () {
+            Route::resource('categories', CategoryController::class);
+        });
     }
 );
 

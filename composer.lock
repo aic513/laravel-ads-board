@@ -1,20 +1,20 @@
 {
-    "_readme": [
-        "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
-        "This file is @generated automatically"
-    ],
-    "content-hash": "8958e31f9427743f7c18f965f5358a25",
-    "packages": [
-        {
-            "name": "asm89/stack-cors",
-            "version": "v2.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/asm89/stack-cors.git",
-                "reference": "73e5b88775c64ccc0b84fb60836b30dc9d92ac4a"
-            },
-            "dist": {
+  "_readme": [
+    "This file locks the dependencies of your project to a known state",
+    "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+    "This file is @generated automatically"
+  ],
+  "content-hash": "941cc9edc766fb83b5e908fb83ed0e56",
+  "packages": [
+    {
+      "name": "asm89/stack-cors",
+      "version": "v2.1.1",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/asm89/stack-cors.git",
+        "reference": "73e5b88775c64ccc0b84fb60836b30dc9d92ac4a"
+      },
+      "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/asm89/stack-cors/zipball/73e5b88775c64ccc0b84fb60836b30dc9d92ac4a",
                 "reference": "73e5b88775c64ccc0b84fb60836b30dc9d92ac4a",
@@ -1068,26 +1068,89 @@
                 },
                 {
                     "url": "https://github.com/Nyholm",
-                    "type": "github"
+                  "type": "github"
                 },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/psr7",
-                    "type": "tidelift"
-                }
+              {
+                "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/psr7",
+                "type": "tidelift"
+              }
             ],
-            "time": "2022-10-26T14:07:24+00:00"
+          "time": "2022-10-26T14:07:24+00:00"
         },
+    {
+      "name": "kalnoy/nestedset",
+      "version": "v6.0.1",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/lazychaser/laravel-nestedset.git",
+        "reference": "bcfbccea5e3ddf31cb22e1bc3c6124da584505fc"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/lazychaser/laravel-nestedset/zipball/bcfbccea5e3ddf31cb22e1bc3c6124da584505fc",
+        "reference": "bcfbccea5e3ddf31cb22e1bc3c6124da584505fc",
+        "shasum": ""
+      },
+      "require": {
+        "illuminate/database": "^7.0|^8.0|^9.0",
+        "illuminate/events": "^7.0|^8.0|^9.0",
+        "illuminate/support": "^7.0|^8.0|^9.0",
+        "php": "^7.2.5|^8.0"
+      },
+      "require-dev": {
+        "phpunit/phpunit": "7.*|8.*|9.*"
+      },
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-master": "v5.0.x-dev"
+        },
+        "laravel": {
+          "providers": [
+            "Kalnoy\\Nestedset\\NestedSetServiceProvider"
+          ]
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "Kalnoy\\Nestedset\\": "src/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
+      "authors": [
         {
-            "name": "laravel/framework",
-            "version": "v8.83.27",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/framework.git",
-                "reference": "e1afe088b4ca613fb96dc57e6d8dbcb8cc2c6b49"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/e1afe088b4ca613fb96dc57e6d8dbcb8cc2c6b49",
+          "name": "Alexander Kalnoy",
+          "email": "lazychaser@gmail.com"
+        }
+      ],
+      "description": "Nested Set Model for Laravel 5.7 and up",
+      "keywords": [
+        "database",
+        "hierarchy",
+        "laravel",
+        "nested sets",
+        "nsm"
+      ],
+      "support": {
+        "issues": "https://github.com/lazychaser/laravel-nestedset/issues",
+        "source": "https://github.com/lazychaser/laravel-nestedset/tree/v6.0.1"
+      },
+      "time": "2022-02-11T06:17:57+00:00"
+    },
+    {
+      "name": "laravel/framework",
+      "version": "v8.83.27",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/laravel/framework.git",
+        "reference": "e1afe088b4ca613fb96dc57e6d8dbcb8cc2c6b49"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/laravel/framework/zipball/e1afe088b4ca613fb96dc57e6d8dbcb8cc2c6b49",
                 "reference": "e1afe088b4ca613fb96dc57e6d8dbcb8cc2c6b49",
                 "shasum": ""
             },

@@ -10,6 +10,14 @@ use Illuminate\Validation\ValidationException;
 
 class PhoneController extends Controller
 {
+
+    private $sms;
+
+    public function __construct(SmsSender $sms)
+    {
+        $this->sms = $sms;
+    }
+
     public function request(Request $request)
     {
         $user = Auth::user();

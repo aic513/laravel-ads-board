@@ -25,7 +25,17 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/cabinet', [Cabinet::class, 'index'])->name('cabinet');
+Route::group(
+    [
+        'prefix' => 'cabinet',
+        'as' => 'cabinet.',
+        'namespace' => 'Cabinet',
+        'middleware' => ['auth'],
+    ],
+    function () {
+        Route::get('/', [Cabinet::class, 'index'])->name('home');
+    }
+);
 
 Route::group(
     [

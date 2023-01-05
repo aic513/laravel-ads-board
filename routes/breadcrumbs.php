@@ -30,9 +30,9 @@ Breadcrumbs::register('password.reset', function (Crumbs $crumbs) {
     $crumbs->push('Change', route('password.reset'));
 });
 
-Breadcrumbs::register('cabinet', function (Crumbs $crumbs) {
+Breadcrumbs::register('cabinet.home', function (Crumbs $crumbs) {
     $crumbs->parent('home');
-    $crumbs->push('Cabinet', route('cabinet'));
+    $crumbs->push('Cabinet', route('cabinet.home'));
 });
 
 Breadcrumbs::register('admin.home', function (Crumbs $crumbs) {

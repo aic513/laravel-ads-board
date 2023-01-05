@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\RegionController as Region;
 use App\Http\Controllers\Admin\UsersController as Users;
 use App\Http\Controllers\Auth\LoginController as Login;
 use App\Http\Controllers\Auth\VerificationController as Verification;
+use App\Http\Controllers\Cabinet\AdvertController as Advert;
 use App\Http\Controllers\Cabinet\HomeController as Cabinet;
 use App\Http\Controllers\Cabinet\ProfileController as Profile;
 use App\Http\Controllers\HomeController;
@@ -54,6 +55,7 @@ Route::group(
             Route::get('/phone', [Profile::class, 'form'])->name('phone');
             Route::put('/phone', [Profile::class, 'verify'])->name('phone.verify');
             Route::post('/phone/auth', [Profile::class, 'auth'])->name('phone.auth');
+            Route::resource('adverts', Advert::class);
         });
     }
 );

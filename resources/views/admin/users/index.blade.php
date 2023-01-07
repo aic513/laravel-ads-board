@@ -89,8 +89,10 @@
                 <td>
                     @if ($user->isAdmin())
                         <span class="label label-default">Admin</span>
+                    @elseif($user->isModerator())
+                        <span class="label label-default">Moderator</span>
                     @else
-                        <span class="label label-success">User</span>
+                        <span class="label label-default">User</span>
                     @endif
                 </td>
             </tr>

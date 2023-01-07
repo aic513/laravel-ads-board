@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Region;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class RegionController extends Controller
 {
     public function index()
     {
-        $regions = Region::where('parent_id', null)->orderBy('name')->get();
+        $regions = Region::where('parent_id', null)->orderBy('name')->paginate(10);
 
         return view('admin.regions.index', compact('regions'));
     }
@@ -26,6 +27,9 @@ class RegionController extends Controller
         return view('admin.regions.create', compact('parent'));
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -55,6 +59,9 @@ class RegionController extends Controller
         return view('admin.regions.edit', compact('region'));
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function update(Request $request, Region $region)
     {
         $this->validate($request, [

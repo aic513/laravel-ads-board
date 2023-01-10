@@ -34,7 +34,7 @@ class LoginTest extends TestCase
 
         $response = $this->post('/login', [
             'email' => $user->email,
-            'password' => 'secret',
+            'password' => 'password',
         ]);
 
         $response
@@ -49,7 +49,7 @@ class LoginTest extends TestCase
 
         $response = $this->post('/login', [
             'email' => $user->email,
-            'password' => 'secret',
+            'password' => 'password',
         ]);
 
         $response

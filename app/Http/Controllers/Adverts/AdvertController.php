@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Adverts;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Route\AdvertsPath;
 use App\Models\Adverts\Advert\Advert;
 use App\Models\Adverts\Category;
 use App\Models\Region;
@@ -11,15 +12,15 @@ use Illuminate\Support\Facades\Gate;
 
 class AdvertController extends Controller
 {
-    public function index(Region|null $region = null, Category|null $category = null)
+    public function index(AdvertsPath $path)
     {
         $query = Advert::active()->with(['category', 'region'])->orderByDesc('published_at');
 
-        if ($category) {
+        if ($category = $path->category) {
             $query->forCategory($category);
         }
 
-        if ($region) {
+        if ($region = $path->region) {
             $query->forRegion($region);
         }
 

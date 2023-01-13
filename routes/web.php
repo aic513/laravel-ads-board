@@ -9,7 +9,7 @@ use App\Http\Controllers\Admin\UsersController as Users;
 use App\Http\Controllers\Adverts\AdvertController as AdvertAdvert;
 use App\Http\Controllers\Auth\LoginController as Login;
 use App\Http\Controllers\Auth\VerificationController as Verification;
-use App\Http\Controllers\Cabinet\AdvertController as CabinetAdvert;
+use App\Http\Controllers\Cabinet\Adverts\AdvertController as CabinetAdvert;
 use App\Http\Controllers\Cabinet\Adverts\CreateController as CabinetAdvertsCreate;
 use App\Http\Controllers\Cabinet\Adverts\ManageController as CabinetAdvertsManage;
 use App\Http\Controllers\Cabinet\HomeController as Cabinet;
@@ -40,13 +40,12 @@ Route::get('/verify/{token}', [Verification::class, 'verify'])->name('register.v
 Route::group([
     'prefix' => 'adverts',
     'as' => 'adverts.',
-//    'namespace' => 'Adverts',
+    'namespace' => 'Adverts',
 ], function () {
     Route::get('/show/{advert}', [AdvertAdvert::class, 'show'])->name('show');
     Route::post('/show/{advert}/phone', [AdvertAdvert::class, 'phone'])->name('phone');
 
-    Route::get('/all/{category?}', [AdvertAdvert::class, 'index'])->name('index.all');
-    Route::get('/{region?}/{category?}', [AdvertAdvert::class, 'index'])->name('index');
+    Route::get('/{adverts_path?}', [AdvertAdvert::class, 'index'])->name('index')->where('adverts_path', '.+');
 });
 
 Route::group(

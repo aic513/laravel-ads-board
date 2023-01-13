@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Route\AdvertsPath;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -33,9 +34,10 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->configureRateLimiting();
+        Route::model('adverts_path', AdvertsPath::class);
 
         $this->routes(function () {
             Route::prefix('api')

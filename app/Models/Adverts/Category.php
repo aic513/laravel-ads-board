@@ -108,4 +108,9 @@ class Category extends Model
     {
         return $this->hasMany(Attribute::class, 'category_id', 'id');
     }
+
+    public function getPath(): string
+    {
+        return implode('/', array_merge($this->ancestors()->defaultOrder()->pluck('slug')->toArray(), [$this->slug]));
+    }
 }

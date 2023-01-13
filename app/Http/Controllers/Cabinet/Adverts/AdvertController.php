@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Cabinet;
+namespace App\Http\Controllers\Cabinet\Adverts;
 
 use App\Http\Controllers\Controller;
 use App\Models\Adverts\Advert\Advert;

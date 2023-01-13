@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Photo whereFile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Photo whereId($value)
  * @mixin \Eloquent
+ * @property string $file
  */
 class Photo extends Model
 {

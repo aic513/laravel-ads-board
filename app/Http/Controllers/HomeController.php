@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Adverts\Category;
+use App\Models\Region;
+
 class HomeController extends Controller
 {
 
@@ -12,6 +15,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $regions = Region::roots()->orderBy('name')->getModels();
+
+        $categories = Category::whereIsRoot()->defaultOrder()->getModels();
+
+        return view('home', compact('regions', 'categories'));
     }
 }

@@ -9,6 +9,11 @@ use Illuminate\Validation\ValidationException;
 
 class RegionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:manage-regions');
+    }
+
     public function index()
     {
         $regions = Region::where('parent_id', null)->orderBy('name')->paginate(10);

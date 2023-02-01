@@ -14,6 +14,7 @@ class PhoneTest extends TestCase
 
     public function testDefault(): void
     {
+        /** @var User $user */
         $user = User::factory()->create([
             'phone' => null,
             'phone_verified' => false,

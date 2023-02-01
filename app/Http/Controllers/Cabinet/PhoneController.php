@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Cabinet;
 
 use App\Http\Controllers\Controller;
+use App\Services\Sms\SmsSender;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 class PhoneController extends Controller
 {
 
-    private $sms;
+    private SmsSender $sms;
 
     public function __construct(SmsSender $sms)
     {

@@ -165,6 +165,9 @@ class User extends Authenticatable
         $this->saveOrFail();
     }
 
+    /**
+     * @throws Throwable
+     */
     public function requestPhoneVerification(Carbon $now): string
     {
         if (empty($this->phone)) {

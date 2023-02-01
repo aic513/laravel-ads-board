@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Cabinet;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class ProfileController extends Controller
@@ -23,6 +24,10 @@ class ProfileController extends Controller
         return view('cabinet.profile.edit', compact('user'));
     }
 
+    /**
+     * @throws Throwable
+     * @throws ValidationException
+     */
     public function update(Request $request)
     {
         $this->validate($request, [

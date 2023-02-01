@@ -13,6 +13,7 @@ use App\Http\Controllers\Cabinet\Adverts\AdvertController as CabinetAdvert;
 use App\Http\Controllers\Cabinet\Adverts\CreateController as CabinetAdvertsCreate;
 use App\Http\Controllers\Cabinet\Adverts\ManageController as CabinetAdvertsManage;
 use App\Http\Controllers\Cabinet\HomeController as Cabinet;
+use App\Http\Controllers\Cabinet\PhoneController as Phone;
 use App\Http\Controllers\Cabinet\ProfileController as Profile;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -65,10 +66,10 @@ Route::group(
             Route::get('/', [Profile::class, 'index'])->name('home');
             Route::get('/edit', [Profile::class, 'edit'])->name('edit');
             Route::put('/update', [Profile::class, 'update'])->name('update');
-            Route::post('/phone', [Profile::class, 'request']);
-            Route::get('/phone', [Profile::class, 'form'])->name('phone');
-            Route::put('/phone', [Profile::class, 'verify'])->name('phone.verify');
-            Route::post('/phone/auth', [Profile::class, 'auth'])->name('phone.auth');
+            Route::post('/phone', [Phone::class, 'request']);
+            Route::get('/phone', [Phone::class, 'form'])->name('phone');
+            Route::put('/phone', [Phone::class, 'verify'])->name('phone.verify');
+            Route::post('/phone/auth', [Phone::class, 'auth'])->name('phone.auth');
         });
 
         Route::group([

@@ -11,9 +11,10 @@ use Illuminate\Support\Facades\Cache;
 class AdvertsPath implements UrlRoutable
 {
 
-    public Region|null $region;
+    public Region|null $region = null;
 
-    public Category|null $category;
+    public Category|null $category = null;
+
 
     public function withRegion(Region|null $region): self
     {

@@ -11,7 +11,9 @@ use App\Http\Controllers\Auth\LoginController as Login;
 use App\Http\Controllers\Auth\VerificationController as Verification;
 use App\Http\Controllers\Cabinet\Adverts\AdvertController as CabinetAdvert;
 use App\Http\Controllers\Cabinet\Adverts\CreateController as CabinetAdvertsCreate;
+use App\Http\Controllers\Cabinet\Adverts\FavoriteController as CabinetAdvertsFavorite;
 use App\Http\Controllers\Cabinet\Adverts\ManageController as CabinetAdvertsManage;
+use App\Http\Controllers\Cabinet\FavoriteController as CabinetFavorite;
 use App\Http\Controllers\Cabinet\HomeController as Cabinet;
 use App\Http\Controllers\Cabinet\PhoneController as Phone;
 use App\Http\Controllers\Cabinet\ProfileController as Profile;
@@ -45,6 +47,8 @@ Route::group([
 ], function () {
     Route::get('/show/{advert}', [AdvertAdvert::class, 'show'])->name('show');
     Route::post('/show/{advert}/phone', [AdvertAdvert::class, 'phone'])->name('phone');
+    Route::post('/show/{advert}/favorites', [CabinetAdvertsFavorite::class, 'add'])->name('favorites');
+    Route::delete('/show/{advert}/favorites', [CabinetAdvertsFavorite::class, 'remove']);
 
     Route::get('/{adverts_path?}', [AdvertAdvert::class, 'index'])->name('index')->where('adverts_path', '.+');
 });
@@ -71,6 +75,9 @@ Route::group(
             Route::put('/phone', [Phone::class, 'verify'])->name('phone.verify');
             Route::post('/phone/auth', [Phone::class, 'auth'])->name('phone.auth');
         });
+
+        Route::get('favorites', [CabinetFavorite::class, 'index'])->name('favorites.index');
+        Route::delete('favorites/{advert}', [CabinetFavorite::class, 'remove'])->name('favorites.remove');
 
         Route::group([
             'prefix' => 'adverts',

@@ -57,6 +57,9 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin Eloquent
  * @property-read int|null $photos_count
  * @property-read int|null $values_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|User[] $favorites
+ * @property-read int|null $favorites_count
+ * @method static Builder|Advert favoredByUser(\App\Models\User $user)
  */
 class Advert extends Model
 {

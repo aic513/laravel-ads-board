@@ -54,6 +54,8 @@ use Throwable;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereVerifyToken($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|Advert[] $favorites
+ * @property-read int|null $favorites_count
  */
 class User extends Authenticatable
 {

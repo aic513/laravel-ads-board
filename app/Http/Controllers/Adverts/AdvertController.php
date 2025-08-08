@@ -4,26 +4,28 @@ namespace App\Http\Controllers\Adverts;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Adverts\SearchRequest;
 use App\Http\Route\AdvertsPath;
 use App\Models\Adverts\Advert\Advert;
 use App\Models\Adverts\Category;
 use App\Models\Region;
+use App\UseCases\Adverts\SearchService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class AdvertController extends Controller
 {
-    public function index(AdvertsPath $path)
+    private $search;
+
+    public function __construct(SearchService $search)
     {
-        $query = Advert::active()->with(['category', 'region'])->orderByDesc('published_at');
+        $this->search = $search;
+    }
 
-        if ($category = $path->category) {
-            $query->forCategory($category);
-        }
-
-        if ($region = $path->region) {
-            $query->forRegion($region);
-        }
+    public function index(SearchRequest $request, AdvertsPath $path)
+    {
+        $region = $path->region;
+        $category = $path->category;
 
         $regions = $region
             ? $region->children()->orderBy('name')->getModels()
@@ -33,7 +35,7 @@ class AdvertController extends Controller
             ? $category->children()->defaultOrder()->getModels()
             : Category::whereIsRoot()->defaultOrder()->getModels();
 
-        $adverts = $query->paginate(20);
+        $adverts = $this->search->search($category, $region, $request, 20, $request->get('page', 1));
 
         return view('adverts.index', compact('category', 'region', 'categories', 'regions', 'adverts'));
     }

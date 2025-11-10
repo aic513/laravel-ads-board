@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Services\Search;
 
-use App\Models\Adverts\Advert;
+use App\Models\Adverts\Advert\Advert;
 use App\Models\Adverts\Advert\Value;
 use Elasticsearch\Client;
 

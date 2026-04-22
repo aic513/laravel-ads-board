@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Laravel\Passport\HasApiTokens;
 use Throwable;
 
 /**
@@ -60,7 +61,7 @@ use Throwable;
  */
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
     use HasFactory;
 
     public const STATUS_WAIT = 'wait';

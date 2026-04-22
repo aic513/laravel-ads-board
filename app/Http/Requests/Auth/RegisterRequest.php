@@ -1,9 +1,21 @@
 <?php
 
+
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Swagger\Annotations as SWG;
 
+/**
+ * @SWG\Definition(
+ *     definition="RegisterRequest",
+ *     type="object",
+ *     @SWG\Property(property="name", type="string"),
+ *     @SWG\Property(property="email", type="string"),
+ *     @SWG\Property(property="password", type="string"),
+ *     @SWG\Property(property="password_confirmation", type="string"),
+ * )
+ */
 class RegisterRequest extends FormRequest
 {
     public function authorize(): bool
@@ -20,3 +32,5 @@ class RegisterRequest extends FormRequest
         ];
     }
 }
+
+

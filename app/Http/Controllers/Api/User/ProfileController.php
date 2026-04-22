@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cabinet\ProfileEditRequest;
-use App\Http\Resources\ProfileResource;
+use App\Http\Resources\User\ProfileResource;
 use App\Models\User;
 use App\UseCases\Profile\ProfileService;
 use Illuminate\Http\Request;
+use Swagger\Annotations as SWG;
 
 class ProfileController extends Controller
 {
@@ -19,6 +20,18 @@ class ProfileController extends Controller
         $this->service = $service;
     }
 
+    /**
+     * @SWG\Get(
+     *     path="/user",
+     *     tags={"Profile"},
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/Profile"),
+     *     ),
+     *     security={{"Bearer": {}, "OAuth2": {}}}
+     * )
+     */
     public function show(Request $request)
     {
         return new ProfileResource($request->user());

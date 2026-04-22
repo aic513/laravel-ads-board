@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Swagger\Annotations as SWG;
 
 /**
  * @property int $id
@@ -25,6 +26,30 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property Region $region
  * @property Category $category
  * @property Photo[]|Collection $photos
+ */
+
+/**
+ * @SWG\Definition(
+ *     definition="AdvertList",
+ *     type="object",
+ *     @SWG\Property(property="id", type="integer"),
+ *     @SWG\Property(property="user", type="object",
+ *         @SWG\Property(property="name", type="string"),
+ *         @SWG\Property(property="phone", type="string"),
+ *     ),
+ *     @SWG\Property(property="category", type="object",
+ *         @SWG\Property(property="id", type="integer"),
+ *         @SWG\Property(property="name", type="string"),
+ *     ),
+ *     @SWG\Property(property="region", type="object",
+ *         @SWG\Property(property="id", type="integer"),
+ *         @SWG\Property(property="name", type="string"),
+ *     ),
+ *     @SWG\Property(property="title", type="string"),
+ *     @SWG\Property(property="price", type="integer"),
+ *     @SWG\Property(property="date", type="date"),
+ *     @SWG\Property(property="photo", type="string"),
+ * )
  */
 class AdvertListResource extends JsonResource
 {

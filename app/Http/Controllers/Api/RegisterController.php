@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\UseCases\Auth\RegisterService;
 use Illuminate\Http\Response;
+use Swagger\Annotations as SWG;
 
 class RegisterController extends Controller
 {
@@ -17,6 +18,17 @@ class RegisterController extends Controller
         $this->service = $service;
     }
 
+    /**
+     * @SWG\Post(
+     *     path="/register",
+     *     tags={"Profile"},
+     *     @SWG\Parameter(name="body", in="body", required=true, @SWG\Schema(ref="#/definitions/RegisterRequest")),
+     *     @SWG\Response(
+     *         response=201,
+     *         description="Success response",
+     *     )
+     * )
+     */
     public function register(RegisterRequest $request)
     {
         $this->service->register($request);

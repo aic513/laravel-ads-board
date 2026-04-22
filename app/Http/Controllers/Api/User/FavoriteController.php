@@ -9,6 +9,7 @@ use App\Http\Resources\Adverts\AdvertDetailResource;
 use App\Models\Adverts\Advert\Advert;
 use App\UseCases\Adverts\FavoriteService;
 use Illuminate\Support\Facades\Auth;
+use Swagger\Annotations as SWG;
 
 class FavoriteController extends Controller
 {
@@ -20,6 +21,21 @@ class FavoriteController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * @SWG\Get(
+     *     path="/user/favorites",
+     *     tags={"Favorites"},
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref="#/definitions/AdvertList")
+     *         ),
+     *     ),
+     *     security={{"Bearer": {}, "OAuth2": {}}}
+     * )
+     */
     public function index()
     {
         $adverts = Advert::favoredByUser(Auth::user())->orderByDesc('id')->paginate(20);

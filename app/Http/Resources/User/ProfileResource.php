@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\User;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Swagger\Annotations as SWG;
 
 /**
  * @property int $id
@@ -12,6 +13,23 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string $email
  * @property string $phone
  * @property bool $phone_verified
+ */
+
+/**
+ * @SWG\Definition(
+ *     definition="Profile",
+ *     type="object",
+ *     @SWG\Property(property="id", type="integer"),
+ *     @SWG\Property(property="email", type="string"),
+ *     @SWG\Property(property="phone", type="object",
+ *         @SWG\Property(property="number", type="string"),
+ *         @SWG\Property(property="verified", type="boolean"),
+ *     ),
+ *     @SWG\Property(property="name", type="object",
+ *         @SWG\Property(property="first", type="string"),
+ *         @SWG\Property(property="last", type="string"),
+ *     ),
+ * )
  */
 class ProfileResource extends JsonResource
 {

@@ -3,16 +3,20 @@
 use App\Http\Controllers\Admin\Adverts\AdvertController as AdminAdvert;
 use App\Http\Controllers\Admin\Adverts\AttributeController as Attribute;
 use App\Http\Controllers\Admin\Adverts\CategoryController as AdvertCategory;
+use App\Http\Controllers\Admin\BannerController as AdminBanner;
 use App\Http\Controllers\Admin\HomeController as Admin;
 use App\Http\Controllers\Admin\RegionController as Region;
 use App\Http\Controllers\Admin\UsersController as Users;
 use App\Http\Controllers\Adverts\AdvertController as AdvertAdvert;
 use App\Http\Controllers\Auth\LoginController as Login;
 use App\Http\Controllers\Auth\VerificationController as Verification;
+use App\Http\Controllers\BannerController as Banner;
 use App\Http\Controllers\Cabinet\Adverts\AdvertController as CabinetAdvert;
 use App\Http\Controllers\Cabinet\Adverts\CreateController as CabinetAdvertsCreate;
 use App\Http\Controllers\Cabinet\Adverts\FavoriteController as CabinetAdvertsFavorite;
 use App\Http\Controllers\Cabinet\Adverts\ManageController as CabinetAdvertsManage;
+use App\Http\Controllers\Cabinet\Banners\BannerController as CabinetBannerManage;
+use App\Http\Controllers\Cabinet\Banners\CreateController as CabinetBannerCreate;
 use App\Http\Controllers\Cabinet\FavoriteController as CabinetFavorite;
 use App\Http\Controllers\Cabinet\HomeController as Cabinet;
 use App\Http\Controllers\Cabinet\PhoneController as Phone;
@@ -39,6 +43,12 @@ Route::get('/login/phone', [Login::class, 'phone'])->name('login.phone');
 Route::post('/login/phone', [Login::class, 'verify']);
 
 Route::get('/verify/{token}', [Verification::class, 'verify'])->name('register.verify');
+
+Route::get('/banner/get', [Banner::class, 'get'])->name('banner.get');
+Route::get('/banner/{banner}/click', [Banner::class, 'click'])->name('banner.click');
+
+Route::get('/banner/get', 'BannerController@get')->name('banner.get');
+Route::get('/banner/{banner}/click', 'BannerController@click')->name('banner.click');
 
 Route::group([
     'prefix' => 'adverts',
@@ -104,6 +114,33 @@ Route::group(
             Route::post('/{advert}/close', [CabinetAdvertsManage::class, 'close'])->name('close');
             Route::delete('/{advert}/destroy', [CabinetAdvertsManage::class, 'destroy'])->name('destroy');
         });
+
+
+        Route::group([
+            'prefix' => 'banners',
+            'as' => 'banners.',
+            'namespace' => 'Banners',
+            'middleware' => [App\Http\Middleware\FilledProfile::class],
+        ], function () {
+            Route::get('/', [CabinetBannerManage::class, 'index'])->name('index');
+            Route::get('/create', [CabinetBannerCreate::class, 'category'])->name('create');
+            Route::get('/create/region/{category}/{region?}',
+                [CabinetBannerCreate::class, 'region'])->name('create.region');
+            Route::get('/create/banner/{category}/{region?}',
+                [CabinetBannerCreate::class, 'banner'])->name('create.banner');
+            Route::post('/create/banner/{category}/{region?}',
+                [CabinetBannerCreate::class, 'store'])->name('create.banner.store');
+
+            Route::get('/show/{banner}', [CabinetBannerManage::class, 'show'])->name('show');
+            Route::get('/{banner}/edit', [CabinetBannerManage::class, 'editForm'])->name('edit');
+            Route::put('/{banner}/edit', [CabinetBannerManage::class, 'edit']);
+            Route::get('/{banner}/file', [CabinetBannerManage::class, 'fileForm'])->name('file');
+            Route::put('/{banner}/file', [CabinetBannerManage::class, 'file']);
+            Route::post('/{banner}/send', [CabinetBannerManage::class, 'send'])->name('send');
+            Route::post('/{banner}/cancel', [CabinetBannerManage::class, 'cancel'])->name('cancel');
+            Route::post('/{banner}/order', [CabinetBannerManage::class, 'order'])->name('order');
+            Route::delete('/{banner}/destroy', [CabinetBannerManage::class, 'destroy'])->name('destroy');
+        });
     }
 );
 
@@ -154,6 +191,19 @@ Route::group(
                 Route::post('/{advert}/reject', [AdminAdvert::class, 'reject']);
                 Route::delete('/{advert}/destroy', [AdminAdvert::class, 'destroy'])->name('destroy');
             });
+        });
+
+
+        Route::group(['prefix' => 'banners', 'as' => 'banners.'], function () {
+            Route::get('/', [AdminBanner::class, 'index'])->name('index');
+            Route::get('/{banner}/show', [AdminBanner::class, 'show'])->name('show');
+            Route::get('/{banner}/edit', [AdminBanner::class, 'editForm'])->name('edit');
+            Route::put('/{banner}/edit', [AdminBanner::class, 'edit']);
+            Route::post('/{banner}/moderate', [AdminBanner::class, 'moderate'])->name('moderate');
+            Route::get('/{banner}/reject', [AdminBanner::class, 'rejectForm'])->name('reject');
+            Route::post('/{banner}/reject', [AdminBanner::class, 'reject']);
+            Route::post('/{banner}/pay', [AdminBanner::class, 'pay'])->name('pay');
+            Route::delete('/{banner}/destroy', [AdminBanner::class, 'destroy'])->name('destroy');
         });
     }
 );

@@ -6,14 +6,6 @@
 
 require('./bootstrap');
 
-/**
- * Next, we will create a fresh React component instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-require('./components/Example');
-
 $(document).on('click', '.phone-button', function () {
     var button = $(this);
     axios.post(button.data('source')).then(function (response) {
@@ -21,4 +13,27 @@ $(document).on('click', '.phone-button', function () {
     }).catch(function (error) {
         console.error(error);
     });
+});
+
+$('.banner').each(function () {
+    var block = $(this);
+    var url = block.data('url');
+    var format = block.data('format');
+    var category = block.data('category');
+    var region = block.data('region');
+
+    axios
+        .get(url, {
+            params: {
+                format: format,
+                category: category,
+                region: region
+            }
+        })
+        .then(function (response) {
+            block.html(response.data);
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
 });

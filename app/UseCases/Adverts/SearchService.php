@@ -33,7 +33,7 @@ class SearchService
         });
 
         $response = $this->client->search([
-            'index' => 'app',
+            'index' => 'adverts',
             'type' => 'advert',
             'body' => [
                 '_source' => ['id'],

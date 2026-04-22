@@ -3,13 +3,20 @@
 namespace App\Http\Controllers\Cabinet;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Auth\ProfileEditRequest;
+use App\UseCases\Profile\ProfileService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
-use Throwable;
+
 
 class ProfileController extends Controller
 {
+    private $service;
+
+    public function __construct(ProfileService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
         $user = Auth::user();
@@ -24,40 +31,12 @@ class ProfileController extends Controller
         return view('cabinet.profile.edit', compact('user'));
     }
 
-    /**
-     * @throws Throwable
-     * @throws ValidationException
-     */
-    public function update(Request $request)
+    public function update(ProfileEditRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'phone' => 'required|string|max:255|regex:/^\d+$/s',
-        ]);
-
-        $user = Auth::user();
-        $oldPhone = $user->phone;
-
-        $user->update($request->only('name', 'last_name', 'phone'));
-
-        if ($user->phone !== $oldPhone) {
-            $user->unverifyPhone();
-        }
-
-        return redirect()->route('cabinet.profile.home');
-    }
-
-    /**
-     * @throws Throwable
-     */
-    public function auth()
-    {
-        $user = Auth::user();
-        if ($user->isPhoneAuthEnabled()) {
-            $user->disablePhoneAuth();
-        } else {
-            $user->enablePhoneAuth();
+        try {
+            $this->service->edit(Auth::id(), $request);
+        } catch (\DomainException $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
         return redirect()->route('cabinet.profile.home');
     }

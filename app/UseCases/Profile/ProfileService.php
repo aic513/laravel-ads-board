@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\UseCases\Profile;
 
-use App\Http\Requests\Auth\ProfileEditRequest;
+use App\Http\Requests\Cabinet\ProfileEditRequest;
 use App\Models\User;
 
 class ProfileService

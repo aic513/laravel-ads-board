@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Cabinet;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\ProfileEditRequest;
+use App\Http\Requests\Cabinet\ProfileEditRequest;
 use App\UseCases\Profile\ProfileService;
 use Illuminate\Support\Facades\Auth;
 

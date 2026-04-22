@@ -3,30 +3,25 @@
 namespace App\Http\Controllers\Cabinet;
 
 use App\Http\Controllers\Controller;
-use App\Services\Sms\SmsSender;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use App\Http\Requests\Cabinet\PhoneVerifyRequest;
+use App\UseCases\Profile\PhoneService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 
 class PhoneController extends Controller
 {
+    private $service;
 
-    private SmsSender $sms;
-
-    public function __construct(SmsSender $sms)
+    public function __construct(PhoneService $service)
     {
-        $this->sms = $sms;
+        $this->service = $service;
     }
 
-    public function request(Request $request)
+    public function request()
     {
-        $user = Auth::user();
-
         try {
-            $token = $user->requestPhoneVerification(Carbon::now());
+            $this->service->request(Auth::id());
         } catch (\DomainException $e) {
-            $request->session()->flash('error', $e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
         }
 
         return redirect()->route('cabinet.profile.phone');
@@ -39,23 +34,20 @@ class PhoneController extends Controller
         return view('cabinet.profile.phone', compact('user'));
     }
 
-    /**
-     * @throws ValidationException
-     */
-    public function verify(Request $request)
+    public function verify(PhoneVerifyRequest $request)
     {
-        $this->validate($request, [
-            'token' => 'required|string|max:255',
-        ]);
-
-        $user = Auth::user();
-
         try {
-            $user->verifyPhone($request['token'], Carbon::now());
+            $this->service->verify(Auth::id(), $request);
         } catch (\DomainException $e) {
             return redirect()->route('cabinet.profile.phone')->with('error', $e->getMessage());
-        } catch (\Throwable $e) {
         }
+
+        return redirect()->route('cabinet.profile.home');
+    }
+
+    public function auth()
+    {
+        $this->service->toggleAuth(Auth::id());
 
         return redirect()->route('cabinet.profile.home');
     }

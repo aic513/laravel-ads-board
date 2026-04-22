@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Adverts\Advert\Advert;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -271,5 +272,34 @@ class User extends Authenticatable
     public function favorites()
     {
         return $this->belongsToMany(Advert::class, 'advert_favorites', 'user_id', 'advert_id');
+    }
+
+    public static function registerByNetwork(string $network, string $identity): self
+    {
+        $user = static::create([
+            'name' => $identity,
+            'email' => null,
+            'password' => null,
+            'verify_token' => null,
+            'role' => self::ROLE_USER,
+            'status' => self::STATUS_ACTIVE,
+        ]);
+        $user->networks()->create([
+            'network' => $network,
+            'identity' => $identity,
+        ]);
+        return $user;
+    }
+
+    public function networks()
+    {
+        return $this->hasMany(Network::class, 'user_id', 'id');
+    }
+
+    public function scopeByNetwork(Builder $query, string $network, string $identity): Builder
+    {
+        return $query->whereHas('networks', function (Builder $query) use ($network, $identity) {
+            $query->where('network', $network)->where('identity', $identity);
+        });
     }
 }

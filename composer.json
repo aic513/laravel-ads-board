@@ -16,6 +16,7 @@
         "kalnoy/nestedset": "^6.0",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
+        "laravel/socialite": "^5.0.1",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
         "predis/predis": "^1.1"

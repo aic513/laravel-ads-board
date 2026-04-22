@@ -2,40 +2,34 @@
 
 namespace App\Exceptions;
 
+use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
+use Illuminate\Http\Response;
 
 class Handler extends ExceptionHandler
 {
-    /**
-     * A list of the exception types that are not reported.
-     *
-     * @var array<int, class-string<Throwable>>
-     */
     protected $dontReport = [
         //
     ];
 
-    /**
-     * A list of the inputs that are never flashed for validation exceptions.
-     *
-     * @var array<int, string>
-     */
     protected $dontFlash = [
-        'current_password',
         'password',
         'password_confirmation',
     ];
 
-    /**
-     * Register the exception handling callbacks for the application.
-     *
-     * @return void
-     */
-    public function register()
+    public function report(Exception|\Throwable $exception)
     {
-        $this->reportable(function (Throwable $e) {
-            //
-        });
+        parent::report($exception);
+    }
+
+    public function render($request, Exception|\Throwable $exception)
+    {
+        if ($exception instanceof \DomainException && $request->expectsJson()) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        return parent::render($request, $exception);
     }
 }

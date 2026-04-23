@@ -25,6 +25,9 @@ assets-watch:
 migrate:
 	@docker-compose exec php-cli php artisan migrate
 
+queue:
+	docker-compose exec php-cli php artisan queue:work
+
 perm:
 	sudo chgrp -R www-data storage bootstrap/cache
 	sudo chmod -R ug+rwx storage bootstrap/cache

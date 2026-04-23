@@ -4,14 +4,15 @@ declare(strict_types=1);
 namespace App\Notifications\Advert;
 
 use App\Models\Adverts\Advert\Advert;
-use App\Notifications\SmsChannel;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Queue\SerializesModels;
 
-class ModerationPassedNotification extends Notification
+class ModerationPassedNotification extends Notification implements ShouldQueue
 {
-    use Queueable;
+    use Queueable, SerializesModels;
 
     private $advert;
 

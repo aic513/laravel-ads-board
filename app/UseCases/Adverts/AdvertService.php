@@ -93,6 +93,7 @@ class AdvertService
     {
         $advert = $this->getAdvert($id);
         $advert->moderate(Carbon::now());
+        $advert->user->notify(new ModerationPassedNotification($advert));
     }
 
     public function reject($id, RejectRequest $request): void

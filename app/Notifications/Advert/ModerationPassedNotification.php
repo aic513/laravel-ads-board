@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Notifications\Advert;
 
 use App\Models\Adverts\Advert\Advert;
+use App\Notifications\SmsChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;

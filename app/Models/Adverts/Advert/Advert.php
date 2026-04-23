@@ -6,9 +6,9 @@ use App\Models\Adverts\Category;
 use App\Models\Region;
 use App\Models\User;
 use Carbon\Carbon;
+use Dialog;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -63,8 +63,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Advert extends Model
 {
-    use HasFactory;
-
     public const STATUS_DRAFT = 'draft';
     public const STATUS_MODERATION = 'moderation';
     public const STATUS_ACTIVE = 'active';
@@ -136,6 +134,49 @@ class Advert extends Model
         ]);
     }
 
+    public function writeClientMessage(int $fromId, string $message): void
+    {
+        $this->getOrCreateDialogWith($fromId)->writeMessageByClient($fromId, $message);
+    }
+
+    public function writeOwnerMessage(int $toId, string $message): void
+    {
+        $this->getDialogWith($toId)->writeMessageByOwner($this->user_id, $message);
+    }
+
+    public function readClientMessages(int $userId): void
+    {
+        $this->getDialogWith($userId)->readByClient();
+    }
+
+    public function readOwnerMessages(int $userId): void
+    {
+        $this->getDialogWith($userId)->readByOwner();
+    }
+
+    private function getDialogWith(int $userId): Dialog
+    {
+        $dialog = $this->dialogs()->where([
+            'user_id' => $this->user_id,
+            'client_id' => $userId,
+        ])->first();
+        if (!$dialog) {
+            throw new \DomainException('Dialog is not found.');
+        }
+        return $dialog;
+    }
+
+    private function getOrCreateDialogWith(int $userId): Dialog
+    {
+        if ($userId === $this->user_id) {
+            throw new \DomainException('Cannot send message to myself.');
+        }
+        return $this->dialogs()->firstOrCreate([
+            'user_id' => $this->user_id,
+            'client_id' => $userId,
+        ]);
+    }
+
     public function getValue($id)
     {
         foreach ($this->values as $value) {
@@ -196,6 +237,11 @@ class Advert extends Model
         return $this->belongsToMany(User::class, 'advert_favorites', 'advert_id', 'user_id');
     }
 
+    public function dialogs()
+    {
+        return $this->hasMany(Dialog::class, 'advert_id', 'id');
+    }
+
     public function scopeActive(Builder $query)
     {
         return $query->where('status', self::STATUS_ACTIVE);
@@ -204,13 +250,6 @@ class Advert extends Model
     public function scopeForUser(Builder $query, User $user)
     {
         return $query->where('user_id', $user->id);
-    }
-
-    public function scopeFavoredByUser(Builder $query, User $user)
-    {
-        return $query->whereHas('favorites', function (Builder $query) use ($user) {
-            $query->where('user_id', $user->id);
-        });
     }
 
     public function scopeForCategory(Builder $query, Category $category)
@@ -229,5 +268,12 @@ class Advert extends Model
             $ids = array_merge($ids, $childrenIds);
         }
         return $query->whereIn('region_id', $ids);
+    }
+
+    public function scopeFavoredByUser(Builder $query, User $user)
+    {
+        return $query->whereHas('favorites', function (Builder $query) use ($user) {
+            $query->where('user_id', $user->id);
+        });
     }
 }

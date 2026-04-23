@@ -8,6 +8,7 @@ use App\Models\Adverts\Category;
 use App\Models\Banner;
 use App\Models\Page;
 use App\Models\Region;
+use App\Models\Ticket\Ticket;
 use App\Models\User;
 use DaveJamesMiller\Breadcrumbs\BreadcrumbsGenerator as Crumbs;
 
@@ -176,6 +177,23 @@ Breadcrumbs::register('cabinet.banners.create.banner',
         $crumbs->parent('cabinet.banners.create.region', $category, $region);
         $crumbs->push($region ? $region->name : 'All', route('cabinet.banners.create.banner', [$category, $region]));
     });
+
+// Cabinet Tickets
+
+Breadcrumbs::register('cabinet.tickets.index', function (Crumbs $crumbs) {
+    $crumbs->parent('cabinet.home');
+    $crumbs->push('Tickets', route('cabinet.tickets.index'));
+});
+
+Breadcrumbs::register('cabinet.tickets.create', function (Crumbs $crumbs) {
+    $crumbs->parent('cabinet.tickets.index');
+    $crumbs->push('Create', route('cabinet.tickets.create'));
+});
+
+Breadcrumbs::register('cabinet.tickets.show', function (Crumbs $crumbs, Ticket $ticket) {
+    $crumbs->parent('cabinet.tickets.index');
+    $crumbs->push($ticket->subject, route('cabinet.tickets.show', $ticket));
+});
 
 // Admin
 

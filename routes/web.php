@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\BannerController as AdminBanner;
 use App\Http\Controllers\Admin\HomeController as Admin;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\RegionController as Region;
+use App\Http\Controllers\Admin\TicketController as AdminTicketController;
 use App\Http\Controllers\Admin\UsersController as Users;
 use App\Http\Controllers\Adverts\AdvertController as AdvertAdvert;
 use App\Http\Controllers\Auth\LoginController as Login;
@@ -22,6 +23,7 @@ use App\Http\Controllers\Cabinet\FavoriteController as CabinetFavorite;
 use App\Http\Controllers\Cabinet\HomeController as Cabinet;
 use App\Http\Controllers\Cabinet\PhoneController as Phone;
 use App\Http\Controllers\Cabinet\ProfileController as Profile;
+use App\Http\Controllers\Cabinet\TicketController as CabinetTicketController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
@@ -94,6 +96,15 @@ Route::group(
 
         Route::get('favorites', [CabinetFavorite::class, 'index'])->name('favorites.index');
         Route::delete('favorites/{advert}', [CabinetFavorite::class, 'remove'])->name('favorites.remove');
+
+        Route::resource('tickets', CabinetTicketController::class)->only([
+            'index',
+            'show',
+            'create',
+            'store',
+            'destroy'
+        ]);
+        Route::post('tickets/{ticket}/message', [CabinetTicketController::class, 'message'])->name('tickets.message');
 
         Route::group([
             'prefix' => 'adverts',
@@ -221,6 +232,18 @@ Route::group(
             Route::post('/{banner}/reject', [AdminBanner::class, 'reject']);
             Route::post('/{banner}/pay', [AdminBanner::class, 'pay'])->name('pay');
             Route::delete('/{banner}/destroy', [AdminBanner::class, 'destroy'])->name('destroy');
+        });
+
+        Route::group(['prefix' => 'tickets', 'as' => 'tickets.'], function () {
+            Route::get('/', [AdminTicketController::class, 'index'])->name('index');
+            Route::get('/{ticket}/show', [AdminTicketController::class, 'show'])->name('show');
+            Route::get('/{ticket}/edit', [AdminTicketController::class, 'editForm'])->name('edit');
+            Route::put('/{ticket}/edit', [AdminTicketController::class, 'edit']);
+            Route::post('{ticket}/message', [AdminTicketController::class, 'message'])->name('message');
+            Route::post('/{ticket}/close', [AdminTicketController::class, 'close'])->name('close');
+            Route::post('/{ticket}/approve', [AdminTicketController::class, 'approve'])->name('approve');
+            Route::post('/{ticket}/reopen', [AdminTicketController::class, 'reopen'])->name('reopen');
+            Route::delete('/{ticket}/destroy', [AdminTicketController::class, 'destroy'])->name('destroy');
         });
     }
 );

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Adverts\Advert\Advert;
 use App\Models\Banner;
+use App\Models\Ticket\Ticket;
 use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -33,8 +34,11 @@ class AuthServiceProvider extends ServiceProvider
             return $user->isAdmin();
         });
 
-
         Gate::define('manage-users', function (User $user) {
+            return $user->isAdmin() || $user->isModerator();
+        });
+
+        Gate::define('manage-tickets', function (User $user) {
             return $user->isAdmin() || $user->isModerator();
         });
 
@@ -64,6 +68,10 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('manage-own-banner', function (User $user, Banner $banner) {
             return $banner->user_id === $user->id;
+        });
+
+        Gate::define('manage-own-ticket', function (User $user, Ticket $ticket) {
+            return $ticket->user_id === $user->id;
         });
     }
 }

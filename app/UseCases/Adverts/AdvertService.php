@@ -3,6 +3,7 @@
 namespace App\UseCases\Adverts;
 
 
+use App\Events\Advert\ModerationPassed;
 use App\Http\Requests\Adverts\AttributesRequest;
 use App\Http\Requests\Adverts\CreateRequest;
 use App\Http\Requests\Adverts\EditRequest;
@@ -93,7 +94,7 @@ class AdvertService
     {
         $advert = $this->getAdvert($id);
         $advert->moderate(Carbon::now());
-        $advert->user->notify(new ModerationPassedNotification($advert));
+        event(new ModerationPassed($advert));
     }
 
     public function reject($id, RejectRequest $request): void

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Adverts\AttributeController as Attribute;
 use App\Http\Controllers\Admin\Adverts\CategoryController as AdvertCategory;
 use App\Http\Controllers\Admin\BannerController as AdminBanner;
 use App\Http\Controllers\Admin\HomeController as Admin;
+use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\RegionController as Region;
 use App\Http\Controllers\Admin\UsersController as Users;
 use App\Http\Controllers\Adverts\AdvertController as AdvertAdvert;
@@ -22,6 +23,7 @@ use App\Http\Controllers\Cabinet\HomeController as Cabinet;
 use App\Http\Controllers\Cabinet\PhoneController as Phone;
 use App\Http\Controllers\Cabinet\ProfileController as Profile;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,6 +54,17 @@ Route::get('/banner/{banner}/click', 'BannerController@click')->name('banner.cli
 
 Route::get('/login/{network}', 'Auth\NetworkController@redirect')->name('login.network');
 Route::get('/login/{network}/callback', 'Auth\NetworkController@callback');
+
+
+Route::resource('pages', AdminPageController::class);
+
+Route::group(['prefix' => 'pages/{page}', 'as' => 'pages.'], function () {
+    Route::post('/first', [AdminPageController::class, 'first'])->name('first');
+    Route::post('/up', [AdminPageController::class, 'up'])->name('up');
+    Route::post('/down', [AdminPageController::class, 'down'])->name('down');
+    Route::post('/last', [AdminPageController::class, 'last'])->name('last');
+});
+
 
 Route::group([
     'prefix' => 'adverts',
@@ -210,3 +223,5 @@ Route::group(
         });
     }
 );
+
+Route::get('/{page_path}', [PageController::class, 'show'])->name('page')->where('page_path', '.+');

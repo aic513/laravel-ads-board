@@ -56,16 +56,6 @@ Route::get('/login/{network}', 'Auth\NetworkController@redirect')->name('login.n
 Route::get('/login/{network}/callback', 'Auth\NetworkController@callback');
 
 
-Route::resource('pages', AdminPageController::class);
-
-Route::group(['prefix' => 'pages/{page}', 'as' => 'pages.'], function () {
-    Route::post('/first', [AdminPageController::class, 'first'])->name('first');
-    Route::post('/up', [AdminPageController::class, 'up'])->name('up');
-    Route::post('/down', [AdminPageController::class, 'down'])->name('down');
-    Route::post('/last', [AdminPageController::class, 'last'])->name('last');
-});
-
-
 Route::group([
     'prefix' => 'adverts',
     'as' => 'adverts.',
@@ -171,6 +161,17 @@ Route::group(
         Route::resource('users', Users::class);
         Route::post('/users/{user}/verify', [Users::class, 'verify'])->name('users.verify');
         Route::resource('regions', Region::class);
+
+
+        Route::resource('pages', AdminPageController::class);
+
+        Route::group(['prefix' => 'pages/{page}', 'as' => 'pages.'], function () {
+            Route::post('/first', [AdminPageController::class, 'first'])->name('first');
+            Route::post('/up', [AdminPageController::class, 'up'])->name('up');
+            Route::post('/down', [AdminPageController::class, 'down'])->name('down');
+            Route::post('/last', [AdminPageController::class, 'last'])->name('last');
+        });
+
         Route::group(
             [
                 'prefix' => 'adverts',

@@ -21,6 +21,7 @@
         "laravel/socialite": "^5.0.1",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
+        "mews/purifier": "^3.4",
         "predis/predis": "^1.1"
     },
     "require-dev": {

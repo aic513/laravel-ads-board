@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     mariadb-client \
     unzip \
     curl \
-    && docker-php-ext-install pdo_mysql mbstring zip intl
+    && docker-php-ext-install pdo_mysql pcntl mbstring zip intl
 
 RUN curl -sS https://getcomposer.org/installer | php -- --version=2.2.21 \
     && mv composer.phar /usr/local/bin/composer

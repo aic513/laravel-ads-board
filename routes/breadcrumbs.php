@@ -195,6 +195,23 @@ Breadcrumbs::register('cabinet.tickets.show', function (Crumbs $crumbs, Ticket $
     $crumbs->push($ticket->subject, route('cabinet.tickets.show', $ticket));
 });
 
+// Tickets
+
+Breadcrumbs::register('admin.tickets.index', function (Crumbs $crumbs) {
+    $crumbs->parent('admin.home');
+    $crumbs->push('Tickets', route('admin.tickets.index'));
+});
+
+Breadcrumbs::register('admin.tickets.show', function (Crumbs $crumbs, Ticket $ticket) {
+    $crumbs->parent('admin.tickets.index');
+    $crumbs->push($ticket->subject, route('admin.tickets.show', $ticket));
+});
+
+Breadcrumbs::register('admin.tickets.edit', function (Crumbs $crumbs, Ticket $ticket) {
+    $crumbs->parent('admin.tickets.show', $ticket);
+    $crumbs->push('Edit', route('admin.tickets.edit', $ticket));
+});
+
 // Admin
 
 Breadcrumbs::register('admin.home', function (Crumbs $crumbs) {
